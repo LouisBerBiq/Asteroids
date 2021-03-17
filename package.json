@@ -1,0 +1,23 @@
+{
+  "name": "asteroids",
+  "description": "An incomplete implementation of the classic Asteroids game based on https://www.echalk.co.uk/amusements/Games/asteroidsClassic/ateroids.html",
+  "version": "0.0.1",
+  "main": "main.js",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "laravel-mix": "^6.0.13"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hepl-mmi/Asteroids.git"
+  },
+  "author": "Me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hepl-mmi/Asteroids/issues"
+  },
+  "homepage": "https://github.com/hepl-mmi/Asteroids#readme"
+}
