@@ -1,0 +1,20 @@
+body {
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+canvas {
+	// TODO: center with table
+	border: 1px solid white;
+
+	image-rendering: optimizeSpeed;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: -o-crisp-edges;
+	image-rendering: pixelated;
+	-ms-interpolation-mode: nearest-neighbor;
+}
