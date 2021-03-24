@@ -1,6 +1,8 @@
+import controller from "./controller.js";
+
 const ship = {
 	size: 20,
-	speed: 1,
+	speed: 0,
 	position: {
 		x: 0,
 		y: 0
@@ -13,6 +15,8 @@ const ship = {
 		this.canvasContext = canvasContext2D;
 		this.position.x = this.canvas.width / 2;
 		this.position.y = this.canvas.height / 2;
+
+		controller.init();
 	},
 	update() {
 		this.position.x += this.speed;
