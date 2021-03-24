@@ -13,34 +13,9 @@ canvas.height = 480;
 const canvasContext2D = canvas.getContext('2d');
 canvasContext2D.strokeStyle = '#FFF';
 
-const shipSize = 20;
+ship.init(canvas, canvasContext2D);
+
 const AsteroidSize = 20;
-const shipSpeed = 1;
-let shipPosition = {
-	x: canvas.width / 2,
-	y: canvas.height / 2
-}
-
-function shipUpdate() {
-	shipPosition.x += shipSpeed;
-	if (shipPosition.x > canvas.width) {
-		
-	}
-	drawSpaceship();
-}
-
-function drawSpaceship() {
-	// 30px high / 20px wide
-	canvasContext2D.save();
-	canvasContext2D.translate(shipPosition.x, shipPosition.y);
-	canvasContext2D.beginPath();
-	canvasContext2D.moveTo(0, -1.5 * (shipSize / 2));
-	canvasContext2D.lineTo(shipSize / 2, 1.5 * (shipSize / 2));
-	canvasContext2D.lineTo(-shipSize / 2, 1.5 * (shipSize / 2));
-	canvasContext2D.closePath();
-	canvasContext2D.stroke();
-	canvasContext2D.restore();
-}
 
 function drawAsteroid() {
 	canvasContext2D.save();
@@ -51,11 +26,11 @@ function drawAsteroid() {
 }
 
 
-function update() {
+function mainUpdate() {
 	canvasContext2D.clearRect(0, 0, canvas.width, canvas.height)
-	shipUpdate();
+	ship.update();
 	
-	window.requestAnimationFrame(update);
+	window.requestAnimationFrame(mainUpdate);
 }
 
-update();
+mainUpdate();
