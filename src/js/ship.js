@@ -19,6 +19,9 @@ const ship = {
 		controller.init();
 	},
 	update() {
+		controller.activeKeys.forEach((activeKey) => {
+			this.speed.x += controller.keys[activeKey];
+		});
 		this.position.x += this.speed;
 		// if (this.position.x > canvas.width) {
 			
