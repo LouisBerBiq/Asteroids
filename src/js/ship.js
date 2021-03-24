@@ -12,6 +12,7 @@ const ship = {
 		this.canvas = canvas;
 		this.canvasContext = canvasContext2D;
 		this.position.x = this.canvas.width / 2;
+		this.position.y = this.canvas.height / 2;
 	},
 	update() {
 		this.position.x += this.speed;
