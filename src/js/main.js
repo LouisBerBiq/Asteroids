@@ -26,7 +26,6 @@ const main = {
 		this.update();
 	},
 	update() {
-		console.log('udpate');
 		this.canvasEltContext2D.clearRect(0, 0, this.canvasElt.width, this.canvasElt.height)
 		ship.update();
 
