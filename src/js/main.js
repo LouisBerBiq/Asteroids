@@ -1,36 +1,48 @@
 import ship from "./ship.js";
 
-const NoJsMessage = document.querySelector('#no-js');
-document.body.removeChild(NoJsMessage);
+const main = {
+	NoJsMessageElt: null,
+	canvasElt: null,
+	canvasEltDimensions: { // reason: to prevent recalling this.canvasElt.width whole object everytime
+		width: 640,
+		height: 480,
+	},
+	canvasEltContext2D: null,
+	init() {
+		this.NoJsMessageElt = document.querySelector('#no-js');
+		document.body.removeChild(this.NoJsMessageElt);
 
-const canvas = document.createElement('canvas');
-document.body.insertAdjacentElement("afterbegin", canvas);
+		this.canvasElt = document.createElement('canvas');
+		document.body.insertAdjacentElement("afterbegin", this.canvasElt);
+		this.canvasElt.width = this.canvasEltDimensions.width;
+		this.canvasElt.height = this.canvasEltDimensions.height;
 
-canvas.width = 640;
-canvas.height = 480;
 
-// TODO?: check if browser supports canvas in the first place
-const canvasContext2D = canvas.getContext('2d');
-canvasContext2D.strokeStyle = '#FFF';
+		// TODO?: check if browser supports canvas in the first place
+		this.canvasEltContext2D = this.canvasElt.getContext('2d');
+		this.canvasEltContext2D.strokeStyle = '#FFF';
 
-ship.init(canvas, canvasContext2D);
+		ship.init(this.canvasElt, this.canvasEltContext2D);
+		this.update();
+	},
+	update() {
+		console.log('udpate');
+		this.canvasEltContext2D.clearRect(0, 0, this.canvasElt.width, this.canvasElt.height)
+		ship.update();
+
+		window.requestAnimationFrame(() => {
+			this.update(); // I think I still don't understand how arrow func work
+		});
+	},
+};
+main.init();
 
 const AsteroidSize = 20;
 
 function drawAsteroid() {
-	canvasContext2D.save();
-	canvasContext2D.translate(50, 50);
-	canvasContext2D.strokeRect(50, 50, AsteroidSize, AsteroidSize)
-	canvasContext2D.stroke();
-	canvasContext2D.restore();
+	canvasEltContext2D.save();
+	canvasEltContext2D.translate(50, 50);
+	canvasEltContext2D.strokeRect(50, 50, AsteroidSize, AsteroidSize)
+	canvasEltContext2D.stroke();
+	canvasEltContext2D.restore();
 }
-
-
-function mainUpdate() {
-	canvasContext2D.clearRect(0, 0, canvas.width, canvas.height)
-	ship.update();
-	
-	window.requestAnimationFrame(mainUpdate);
-}
-
-mainUpdate();
