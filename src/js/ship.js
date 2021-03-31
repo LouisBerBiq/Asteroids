@@ -7,6 +7,7 @@ const ship = {
 	speed: null,
 	position: null,
 	acceleration: null,
+	direction: 0,
 	canvas: null, // these kind of things aren't necessary
 	canvasContext: null,
 
@@ -21,7 +22,13 @@ const ship = {
 	},
 	update() {
 		controller.activeKeys.forEach((activeKey) => {
-			this.speed.add(this.acceleration);
+			if (activeKey === 'ArrowUp' || activeKey === 'ArrowDown') {
+				this.speed.add(this.acceleration) * controller.keys[activeKey];
+				console.log('up down');
+			} else if (activeKey === 'ArrowRight' || activeKey === 'ArrowLeft') {
+				this.directionUpdate(controller.keys[activeKey]); // returns 1 or -1
+				console.log('left right');
+			}
 		});
 		this.position.add(this.speed);
 
@@ -41,10 +48,14 @@ const ship = {
 
 		this.draw();
 	},
+	directionUpdate(angle) {
+		this.direction += angle * (Math.PI / 180);
+	},
 	draw() {
 		// 30px high / 20px wide
 		this.canvasContext.save();
 		this.canvasContext.translate(this.position.x, this.position.y);
+		this.canvasContext.rotate(this.direction);
 		this.canvasContext.beginPath();
 		this.canvasContext.moveTo(0, -1.5 * (this.size / 2));
 		this.canvasContext.lineTo(this.size / 2, 1.5 * (this.size / 2));
