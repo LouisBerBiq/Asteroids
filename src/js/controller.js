@@ -7,19 +7,21 @@ const controller = {
 	},
 	activeKeys: [],
 	init() {
+		
 		// press key //
 		document.addEventListener('keydown', (e) => {
-			e.preventDefault();
-			e.stopPropagation();
 			if(Object.keys(this.keys).includes(e.key) && !this.activeKeys.includes(e.key)) {
+				e.preventDefault();
+				e.stopPropagation();
 				this.activeKeys.push(e.key);
 			}
 		});
+
 		// release key //
 		document.addEventListener('keyup', (e) => {
-			e.preventDefault();
-			e.stopPropagation();
 			if(this.activeKeys.includes(e.key)) {
+				e.preventDefault();
+				e.stopPropagation();
 				this.activeKeys.splice(this.activeKeys.indexOf(e.key), 1);
 			}
 		});
