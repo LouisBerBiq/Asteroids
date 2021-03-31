@@ -1,28 +1,29 @@
+// @ts-check
 import controller from "./controller.js";
+import Vector from "./vector.js";
 
 const ship = {
 	size: 20,
-	speed: 0,
-	position: {
-		x: 0,
-		y: 0
-	},
+	speed: null,
+	position: null,
+	acceleration: null,
 	canvas: null, // these kind of things aren't necessary
 	canvasContext: null,
 
 	init(canvas, canvasContext2D) {
 		this.canvas = canvas;
 		this.canvasContext = canvasContext2D;
-		this.position.x = this.canvas.width / 2;
-		this.position.y = this.canvas.height / 2;
+		this.speed = new Vector(0, 0);
+		this.position = new Vector(this.canvas.width / 2, this.canvas.height / 2);
+		this.acceleration = new Vector(5, 5);
 
 		controller.init();
 	},
 	update() {
 		controller.activeKeys.forEach((activeKey) => {
-			this.speed += controller.keys[activeKey];
+			this.speed.add(this.acceleration);
 		});
-		this.position.x += this.speed;
+		this.position.add(this.speed);
 
 		// edges looping //
 		if (this.position.x > this.canvas.width + this.size) {
