@@ -20,12 +20,24 @@ const ship = {
 	},
 	update() {
 		controller.activeKeys.forEach((activeKey) => {
-			this.speed.x += controller.keys[activeKey];
+			this.speed += controller.keys[activeKey];
 		});
 		this.position.x += this.speed;
-		// if (this.position.x > canvas.width) {
-			
-		// }
+
+		// edges looping //
+		if (this.position.x > this.canvas.width + this.size) {
+			this.position.x = -this.size;
+		};
+		if (this.position.x < -this.size) {
+			this.position.x = this.canvas.width + this.size;
+		};
+		if (this.position.y > this.canvas.height + this.size) {
+			this.position.y = -this.size;
+		};
+		if (this.position.y < -this.size) {
+			this.position.y = this.canvas.height + this.size;
+		};
+
 		this.draw();
 	},
 	draw() {
