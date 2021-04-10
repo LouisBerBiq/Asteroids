@@ -41,7 +41,7 @@ const ship = {
 	DiscardBullets(bullet) {
 		this.bullets.splice(this.bullets.indexOf(bullet), 1);
 	},
-	update() {
+	keyHandling() {
 		controller.activeKeys.forEach((activeKey) => {
 			if (activeKey === 'ArrowUp' || activeKey === 'ArrowDown') {
 				this.acceleration = Vector.fromAngle(this.direction);
@@ -51,12 +51,16 @@ const ship = {
 			} else if (activeKey === ' ') {
 				this.fireRateTimer++;
 				if (!(this.fireRateTimer % this.fireRateTimerTreshold)) {
-					this.bullets.push(new Bullet())
+					this.bullets.push(new Bullet());
 				}
 			} else {
-				this.fireRateTimer = -1; //doesn't seems to work?
+				this.fireRateTimer = -1;
 			}
 		});
+	},
+	update() {
+		this.keyHandling();
+		
 		this.speed.multiply(0.96);
 		this.position.add(this.speed);
 
