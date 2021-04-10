@@ -12,7 +12,14 @@ export default class Vector {
 		this.x *= factor;
 		this.y *= factor;
 	}
-	// magnitude() {
-		
-	// }
+	static fromAngle(angle, magnitude) { // note for self: this is a class method, contrary to instance methods, it doesn't modify properties of the objects being passed.
+	// static = is not bundled with each instance ??
+	// note for later, learn -> and :: in php
+		let magn = 1;
+		if (magnitude !== undefined) {
+			magn = magnitude;
+		}
+
+		return new Vector(magn * Math.cos(angle - Math.PI/2), magn * Math.sin(angle - Math.PI/2));
+	}
 }

@@ -8,7 +8,7 @@ const ship = {
 	position: null,
 	acceleration: null,
 	direction: 0,
-	canvas: null, // these kind of things aren't necessary
+	canvas: null, // these kind of things aren't necessary (citation needed).
 	canvasContext: null,
 
 	init(canvas, canvasContext2D) {
@@ -16,20 +16,19 @@ const ship = {
 		this.canvasContext = canvasContext2D;
 		this.speed = new Vector(0, 0);
 		this.position = new Vector(this.canvas.width / 2, this.canvas.height / 2);
-		this.acceleration = new Vector(5, 5);
 
 		controller.init();
 	},
 	update() {
 		controller.activeKeys.forEach((activeKey) => {
 			if (activeKey === 'ArrowUp' || activeKey === 'ArrowDown') {
-				this.speed.add(this.acceleration) * controller.keys[activeKey];
-				console.log('up down');
+				this.acceleration = Vector.fromAngle(this.direction);
+				this.speed.add(this.acceleration);
 			} else if (activeKey === 'ArrowRight' || activeKey === 'ArrowLeft') {
-				this.directionUpdate(controller.keys[activeKey]); // returns 1 or -1
-				console.log('left right');
+				this.directionUpdate(controller.keys[activeKey] * 4); // returns 1 or -1
 			}
 		});
+		this.speed.multiply(0.96);
 		this.position.add(this.speed);
 
 		// edges looping //
