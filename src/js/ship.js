@@ -12,6 +12,7 @@ const ship = {
 	fireRateTimer: -1,
 	fireRateTimerTreshold: 10,
 	bullets: [],
+	shootingSound: new Audio('../sounds/bullet.wav'),
 	canvas: null, // these kind of things aren't necessary (citation needed).
 	canvasContext: null,
 
@@ -22,6 +23,20 @@ const ship = {
 		this.position = new Vector(this.canvas.width / 2, this.canvas.height / 2);
 
 		controller.init();
+	},
+	edgeDetect(position, canvas, size) {
+			if (position.x > canvas.width + size) {
+				position.x = -size;
+			};
+			if (position.x < -size) {
+				position.x = canvas.width + size;
+			};
+			if (position.y > canvas.height + size) {
+				position.y = -size;
+			};
+			if (position.y < -size) {
+				position.y = canvas.height + size;
+			};
 	},
 	DiscardBullets(bullet) {
 		this.bullets.splice(this.bullets.indexOf(bullet), 1);
@@ -39,7 +54,7 @@ const ship = {
 					this.bullets.push(new Bullet())
 				}
 			} else {
-				this.fireRateTimer = 0; //doesn't seems to work?
+				this.fireRateTimer = -1; //doesn't seems to work?
 			}
 		});
 		this.speed.multiply(0.96);
@@ -51,18 +66,7 @@ const ship = {
 		});
 
 		// edges looping //
-		if (this.position.x > this.canvas.width + this.size) {
-			this.position.x = -this.size;
-		};
-		if (this.position.x < -this.size) {
-			this.position.x = this.canvas.width + this.size;
-		};
-		if (this.position.y > this.canvas.height + this.size) {
-			this.position.y = -this.size;
-		};
-		if (this.position.y < -this.size) {
-			this.position.y = this.canvas.height + this.size;
-		};
+		this.edgeDetect(this.position, this.canvas, this.size);
 
 		this.draw();
 	},
