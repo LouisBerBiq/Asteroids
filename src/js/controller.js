@@ -1,3 +1,4 @@
+// @ts-check
 const controller = {
 	keys: {
 		'ArrowRight': 1,

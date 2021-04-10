@@ -1,3 +1,4 @@
+// @ts-check
 export default class Vector {
 	constructor(x, y) {
 		this.x = x;

@@ -1,3 +1,4 @@
+// @ts-check
 import ship from "./ship.js";
 
 const main = {
