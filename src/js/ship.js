@@ -23,6 +23,9 @@ const ship = {
 
 		controller.init();
 	},
+	DiscardBullets(bullet) {
+		this.bullets.splice(this.bullets.indexOf(bullet), 1);
+	},
 	update() {
 		controller.activeKeys.forEach((activeKey) => {
 			if (activeKey === 'ArrowUp' || activeKey === 'ArrowDown') {

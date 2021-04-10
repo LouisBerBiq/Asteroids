@@ -17,6 +17,16 @@ export default class Bullet {
 		this.speed.add(this.acceleration);
 		this.position.add(this.speed);
 
+		if (
+		(this.position.x > ship.canvas.width) || 
+		(this.position.x < 0) || 
+		(this.position.y > ship.canvas.height) || 
+		(this.position.y < 0)
+		) 
+		{
+			ship.DiscardBullets(this);
+		};
+		
 		this.draw();
 	}
 	draw() {
