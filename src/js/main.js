@@ -39,10 +39,10 @@ main.init();
 
 const AsteroidSize = 20;
 
-function drawAsteroid() {
-	canvasEltContext2D.save();
-	canvasEltContext2D.translate(50, 50);
-	canvasEltContext2D.strokeRect(50, 50, AsteroidSize, AsteroidSize)
-	canvasEltContext2D.stroke();
-	canvasEltContext2D.restore();
-}
+// function drawAsteroid() {
+// 	canvasEltContext2D.save();
+// 	canvasEltContext2D.translate(50, 50);
+// 	canvasEltContext2D.strokeRect(50, 50, AsteroidSize, AsteroidSize)
+// 	canvasEltContext2D.stroke();
+// 	canvasEltContext2D.restore();
+// }
