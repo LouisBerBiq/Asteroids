@@ -1,4 +1,5 @@
 // @ts-check
+import garbageManager from './garbageManager.js';
 import controller from './controller.js';
 import Vector from './vector.js';
 import Bullet from './bullet.js';
@@ -37,9 +38,6 @@ const ship = {
 			if (position.y < -size) {
 				position.y = canvas.height + size;
 			};
-	},
-	DiscardBullets(bullet) {
-		this.bullets.splice(this.bullets.indexOf(bullet), 1);
 	},
 	keyHandling() {
 		controller.activeKeys.forEach((activeKey) => {

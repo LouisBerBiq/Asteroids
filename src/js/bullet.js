@@ -1,5 +1,5 @@
 // @ts-check
-
+import garbageManager from './garbageManager.js';
 import ship from './ship.js';
 import Vector from './vector.js';
 export default class Bullet {
@@ -23,7 +23,7 @@ export default class Bullet {
 		(this.position.y < 0)
 		) 
 		{
-			ship.DiscardBullets(this);
+			garbageManager.discard(this, ship.bullets);
 		};
 		
 		this.draw();
