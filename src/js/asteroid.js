@@ -12,8 +12,12 @@ export default class Asteroid {
 		const i = Math.floor(Math.random() * possibleShapes);
 		this.shape = asteroidModels[i];
 
-		this.position = new Vector(this.canvas.width / 2, this.canvas.height / 2);
+		this.position = new Vector(Math.random() * this.canvas.width, Math.random() * this.canvas.height);
 		this.scale = 6;
+		this.direction = Math.random() * Math.PI * 2;
+		this.speed = new Vector(0, 0);
+		this.acceleration = Vector.fromAngle(this.direction, .5 + Math.random() * 2);
+		this.speed.add(this.acceleration);
 
 		this.update();
 	}
@@ -21,11 +25,13 @@ export default class Asteroid {
 
 	}
 	update() {
+		this.position.add(this.speed);
 		this.draw();
 	}
 	draw() {
 		this.canvasContext.save();
 		this.canvasContext.translate(this.position.x, this.position.y);
+		this.canvasContext.rotate(this.direction);
 		this.canvasContext.beginPath();
 		this.canvasContext.moveTo(this.shape[0] * this.scale, this.shape[1] * this.scale);
 		// doing this since getting the length of an array can be expensive
