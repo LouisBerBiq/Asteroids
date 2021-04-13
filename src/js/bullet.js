@@ -30,7 +30,7 @@ export default class Bullet {
 	}
 	draw() {
 		this.canvasContext.save();
-		this.canvasContext.translate(this.position.x, this.position.y );
+		this.canvasContext.translate(this.position.x, this.position.y);
 		this.canvasContext.rotate(this.direction);
 		this.canvasContext.beginPath();
 		this.canvasContext.fillRect(-this.size/2, -this.size * 3, this.size/2, this.size/2);
