@@ -11,10 +11,12 @@ export default class Asteroid {
 		if (!parentAsteroid) {
 			this.position = new Vector(Math.random() * this.canvas.width, Math.random() * this.canvas.height);
 			this.scale = 4 + Math.random() * 10;
+			this.selfRotationSpeed = Math.random() / 60;
 		} else {
 			this.position = new Vector(parentAsteroid.position.x, parentAsteroid.position.y); 
-			//idk why cna't I do = parentAsteroid.position
+			//idk why can't I do "= parentAsteroid.position"
 			this.scale = parentAsteroid.scale / childrenToSpawn;
+			this.selfRotationSpeed = parentAsteroid.selfRotationSpeed * (2 + Math.random() * 4);
 		}
 		const possibleShapes = asteroidModels.length;
 		const i = Math.floor(Math.random() * possibleShapes);
@@ -25,6 +27,8 @@ export default class Asteroid {
 		this.speed = new Vector(0, 0);
 		this.acceleration = Vector.fromAngle(this.direction, .5 + Math.random() * 2);
 		this.speed.add(this.acceleration);
+		this.selfRotation = 0;
+
 		
 		this.pathDrawing();
 		this.update();
@@ -46,6 +50,7 @@ export default class Asteroid {
 	}
 	update() {
 		this.position.add(this.speed);
+		this.selfRotation += this.selfRotationSpeed;
 		this.draw();
 
 		this.edgeDetect(this.position, this.canvas, this.scale);
@@ -53,7 +58,7 @@ export default class Asteroid {
 	draw() {
 		this.canvasContext.save();
 		this.canvasContext.translate(this.position.x, this.position.y);
-		this.canvasContext.rotate(this.direction);
+		this.canvasContext.rotate(this.selfRotation);
 		this.canvasContext.stroke(this.path);
 		this.canvasContext.restore();
 	}
