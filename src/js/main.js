@@ -14,7 +14,10 @@ const main = {
 	canvasEltContext2D: null,
 
 	asteroids: [],
+
+	// difficulty settings
 	asteroidsCount: 4,
+	asteroidSizeBeforeFullDestruction: 4,
 	init() {
 		this.NoJsMessageElt = document.querySelector('#no-js');
 		document.body.removeChild(this.NoJsMessageElt);
@@ -32,6 +35,12 @@ const main = {
 		ship.init(this.canvasElt, this.canvasEltContext2D);
 		this.update();
 	},
+	decomposeAsteroid(parentAsteroid) {
+		const childrenToSpawn = Math.floor(2 + Math.random() * 5);
+		for (let i = 0; i < childrenToSpawn; i++) {
+			this.asteroids.push(new Asteroid(this.canvasEltContext2D, this.canvasElt, parentAsteroid, childrenToSpawn))
+		}
+	},
 	update() {
 		this.canvasEltContext2D.clearRect(0, 0, this.canvasElt.width, this.canvasElt.height)
 		ship.update();
@@ -47,8 +56,13 @@ const main = {
 		if (ship.bullets.length) {
 			const colliders = collisionDetector.detect(this.canvasEltContext2D, ship, this.asteroids);
 			if (colliders) {
-				garbageManager.discard(colliders.asteroid, this.asteroids);
-				garbageManager.discard(colliders.bullet, ship.bullets);
+				if (colliders.asteroid.scale > this.asteroidSizeBeforeFullDestruction) {
+					garbageManager.discard(colliders.bullet, ship.bullets);
+					this.decomposeAsteroid(colliders.asteroid);
+					garbageManager.discard(colliders.asteroid, this.asteroids);
+				} else {
+					garbageManager.discard(colliders.asteroid, this.asteroids);
+				}
 			}
 		}
 

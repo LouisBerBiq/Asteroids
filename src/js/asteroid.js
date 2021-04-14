@@ -4,17 +4,23 @@ import ship from './ship.js';
 import Vector from './vector.js';
 import asteroidModels from './asteroidModels.js';
 export default class Asteroid {
-	constructor(canvasContext, canvas) {
+	constructor(canvasContext, canvas, parentAsteroid = null, childrenToSpawn = null) {
 		this.canvasContext = canvasContext;
 		this.canvas = canvas;
 
+		if (!parentAsteroid) {
+			this.position = new Vector(Math.random() * this.canvas.width, Math.random() * this.canvas.height);
+			this.scale = 4 + Math.random() * 10;
+		} else {
+			this.position = new Vector(parentAsteroid.position.x, parentAsteroid.position.y); 
+			//idk why cna't I do = parentAsteroid.position
+			this.scale = parentAsteroid.scale / childrenToSpawn;
+		}
 		const possibleShapes = asteroidModels.length;
 		const i = Math.floor(Math.random() * possibleShapes);
 		this.shape = asteroidModels[i];
 		this.path = new Path2D();
 		
-		this.position = new Vector(Math.random() * this.canvas.width, Math.random() * this.canvas.height);
-		this.scale =  (4 + Math.random() * 10);
 		this.direction = Math.random() * Math.PI * 2;
 		this.speed = new Vector(0, 0);
 		this.acceleration = Vector.fromAngle(this.direction, .5 + Math.random() * 2);
@@ -37,9 +43,6 @@ export default class Asteroid {
 		if (position.y < -sizeOffset) {
 			position.y = canvas.height + sizeOffset;
 		};
-	}
-	decompose() {
-
 	}
 	update() {
 		this.position.add(this.speed);
