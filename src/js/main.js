@@ -1,6 +1,8 @@
 // @ts-check
+import garbageManager from './garbageManager.js';
 import ship from "./ship.js";
 import Asteroid from "./asteroid.js";
+import collisionDetector from "./collisionDetector.js";
 
 const main = {
 	NoJsMessageElt: null,
@@ -12,7 +14,7 @@ const main = {
 	canvasEltContext2D: null,
 
 	asteroids: [],
-	asteroidsCount: 0,
+	asteroidsCount: 4,
 	init() {
 		this.NoJsMessageElt = document.querySelector('#no-js');
 		document.body.removeChild(this.NoJsMessageElt);
@@ -27,34 +29,32 @@ const main = {
 		this.canvasEltContext2D = this.canvasElt.getContext('2d');
 		this.canvasEltContext2D.strokeStyle = '#FFF';
 
-		for (let i = 0; i < 4; i++) {
-			this.asteroidsCount++;
-			this.asteroids.push(new Asteroid(this.canvasEltContext2D, this.canvasElt));
-		}
 		ship.init(this.canvasElt, this.canvasEltContext2D);
 		this.update();
 	},
 	update() {
 		this.canvasEltContext2D.clearRect(0, 0, this.canvasElt.width, this.canvasElt.height)
 		ship.update();
-
+		
+		let i = this.asteroids.length
+		while (i < this.asteroidsCount) {
+			this.asteroids.push(new Asteroid(this.canvasEltContext2D, this.canvasElt));
+			i++
+		}
 		this.asteroids.forEach((asteroid) => {
 			asteroid.update();
 		});
+		if (ship.bullets.length) {
+			const colliders = collisionDetector.detect(this.canvasEltContext2D, ship, this.asteroids);
+			if (colliders) {
+				garbageManager.discard(colliders.asteroid, this.asteroids);
+				garbageManager.discard(colliders.bullet, ship.bullets);
+			}
+		}
 
 		window.requestAnimationFrame(() => {
 			this.update(); // I think I still don't understand how arrow func work
 		});
-	},
-};
+	}
+}
 main.init();
-
-const AsteroidSize = 20;
-
-// function drawAsteroid() {
-// 	canvasEltContext2D.save();
-// 	canvasEltContext2D.translate(50, 50);
-// 	canvasEltContext2D.strokeRect(50, 50, AsteroidSize, AsteroidSize)
-// 	canvasEltContext2D.stroke();
-// 	canvasEltContext2D.restore();
-// }

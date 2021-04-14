@@ -1,5 +1,6 @@
 // @ts-check
 import garbageManager from './garbageManager.js';
+import collisionDetector from './collisionDetector.js';
 import controller from './controller.js';
 import Vector from './vector.js';
 import Bullet from './bullet.js';
