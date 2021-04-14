@@ -14,16 +14,19 @@ const ship = {
 	fireRateTimerTreshold: 10,
 	bullets: [],
 	shootingSound: new Audio('../sounds/bullet.wav'),
+	path : new Path2D(),
+	
 	canvas: null, // these kind of things aren't necessary (citation needed).
 	canvasContext: null,
-
+	
 	init(canvas, canvasContext2D) {
 		this.canvas = canvas;
 		this.canvasContext = canvasContext2D;
 		this.speed = new Vector(0, 0);
 		this.position = new Vector(this.canvas.width / 2, this.canvas.height / 2);
-
+		
 		controller.init();
+		this.pathDrawing();
 	},
 	edgeDetect(position, canvas, size) {
 			if (position.x > canvas.width + size) {
@@ -76,17 +79,19 @@ const ship = {
 		this.direction += angle * (Math.PI / 180);
 	},
 	draw() {
-		// 30px high / 20px wide
 		this.canvasContext.save();
 		this.canvasContext.translate(this.position.x, this.position.y);
 		this.canvasContext.rotate(this.direction);
-		this.canvasContext.beginPath();
-		this.canvasContext.moveTo(0, -1.5 * (this.size / 2));
-		this.canvasContext.lineTo(this.size / 2, 1.5 * (this.size / 2));
-		this.canvasContext.lineTo(-this.size / 2, 1.5 * (this.size / 2));
-		this.canvasContext.closePath();
-		this.canvasContext.stroke();
+		// this.path.beginPath();
+		this.canvasContext.stroke(this.path);
 		this.canvasContext.restore();
+	},
+	pathDrawing() {
+		// 30px high / 20px wide
+		this.path.moveTo(0, -1.5 * (this.size / 2));
+		this.path.lineTo(this.size / 2, 1.5 * (this.size / 2));
+		this.path.lineTo(-this.size / 2, 1.5 * (this.size / 2));
+		this.path.closePath();
 	},
 };
 
