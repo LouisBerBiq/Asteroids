@@ -3,8 +3,8 @@ const controller = {
 	keys: {
 		'ArrowRight': 1,
 		'ArrowLeft': -1,
-		'ArrowUp': -1,
-		'ArrowDown': 1,
+		'ArrowUp': 1,
+		'ArrowDown': -1,
 		' ': 1,
 	},
 	activeKeys: [],
