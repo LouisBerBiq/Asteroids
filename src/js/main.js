@@ -12,12 +12,14 @@ const main = {
 		height: 480,
 	},
 	canvasEltContext2D: null,
+	requestId: 0,
 
 	asteroids: [],
 
 	// difficulty settings
 	asteroidsCount: 4,
 	asteroidSizeBeforeFullDestruction: 4,
+	totalNumberOfAsteroids: 8,
 	init() {
 		this.NoJsMessageElt = document.querySelector('#no-js');
 		document.body.removeChild(this.NoJsMessageElt);
@@ -36,12 +38,16 @@ const main = {
 		this.update();
 	},
 	decomposeAsteroid(parentAsteroid) {
-		const childrenToSpawn = Math.floor(2 + Math.random() * 5);
+		const childrenToSpawn = Math.floor(2 + Math.random() * 4);
 		for (let i = 0; i < childrenToSpawn; i++) {
 			this.asteroids.push(new Asteroid(this.canvasEltContext2D, this.canvasElt, parentAsteroid, childrenToSpawn))
 		}
 	},
 	update() {
+		this.requestId = window.requestAnimationFrame(() => {
+			this.update() // I think I still don't understand how arrow func work
+		});
+
 		this.canvasEltContext2D.clearRect(0, 0, this.canvasElt.width, this.canvasElt.height)
 		ship.update();
 		
@@ -53,8 +59,13 @@ const main = {
 		this.asteroids.forEach((asteroid) => {
 			asteroid.update();
 		});
+		if (ship && this.asteroids.length) {
+			if (collisionDetector.detectShipAsteroid(this.canvasEltContext2D, ship, this.asteroids)) {
+				window.cancelAnimationFrame(this.requestId)
+			}
+		}
 		if (ship.bullets.length) {
-			const colliders = collisionDetector.detect(this.canvasEltContext2D, ship, this.asteroids);
+			const colliders = collisionDetector.detectBulletAsteroid(this.canvasEltContext2D, ship, this.asteroids);
 			if (colliders) {
 				if (colliders.asteroid.scale > this.asteroidSizeBeforeFullDestruction) {
 					garbageManager.discard(colliders.bullet, ship.bullets);
@@ -65,10 +76,6 @@ const main = {
 				}
 			}
 		}
-
-		window.requestAnimationFrame(() => {
-			this.update(); // I think I still don't understand how arrow func work
-		});
 	}
 }
 main.init();
