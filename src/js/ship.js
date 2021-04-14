@@ -14,7 +14,6 @@ const ship = {
 	fireRateTimer: -1,
 	fireRateTimerTreshold: 10,
 	bullets: [],
-	shootingSound: new Audio('../sounds/bullet.wav'),
 	path : new Path2D(),
 	
 	canvas: null, // these kind of things aren't necessary (citation needed).
@@ -25,6 +24,15 @@ const ship = {
 		this.canvasContext = canvasContext2D;
 		this.speed = new Vector(0, 0);
 		this.position = new Vector(this.canvas.width / 2, this.canvas.height / 2);
+
+		this.shape = [
+			0, 
+			-1.5 * (this.size / 2), 
+			this.size / 2, 
+			1.5 * (this.size / 2), 
+			-this.size / 2, 
+			1.5 * (this.size / 2)
+		];
 		
 		controller.init();
 		this.pathDrawing();
@@ -48,6 +56,7 @@ const ship = {
 			if (activeKey === 'ArrowUp' || activeKey === 'ArrowDown') {
 				this.acceleration = Vector.fromAngle(this.direction);
 				this.speed.add(this.acceleration);
+				this.speed.multiply(controller.keys[activeKey]);
 			} else if (activeKey === 'ArrowRight' || activeKey === 'ArrowLeft') {
 				this.directionUpdate(controller.keys[activeKey] * 4); // returns 1 or -1
 			} else if (activeKey === ' ') {
@@ -89,9 +98,9 @@ const ship = {
 	},
 	pathDrawing() {
 		// 30px high / 20px wide
-		this.path.moveTo(0, -1.5 * (this.size / 2));
-		this.path.lineTo(this.size / 2, 1.5 * (this.size / 2));
-		this.path.lineTo(-this.size / 2, 1.5 * (this.size / 2));
+		this.path.moveTo(this.shape[0], this.shape[1]);
+		this.path.lineTo(this.shape[2], this.shape[3]);
+		this.path.lineTo(this.shape[4], this.shape[5]);
 		this.path.closePath();
 	},
 };
